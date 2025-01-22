@@ -2,7 +2,8 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: DockerfileFrontendFRA
+    container_name: frontendFRA
     ports:
       - "3000:3000"
     volumes:
@@ -11,26 +12,28 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true # Activa polling para asegurar detección de cambios en Docker
     networks:
-      - app-network
+      - redwebFRA
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: DockerFileBackendFRA
+    container_name: backendFRA
     command: bash -c "composer install && php -S 0.0.0.0:8000 -t public"
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
     networks:
-      - app-network
-  nginx:
+      - redwebFRA
+  web:
     build:
-      context: ./nginx
-      dockerfile: Dockerfile
+      context: ./web
+      dockerfile: DockerfileWebFRA
+    container_name: webFRA
     ports:
       - "80:80" # si tienes problemas con el puerto 80 cambia el puerto externo aquí
     networks:
-      - app-network
+      - redwebFRA
 networks:
-  app-network:
+  redwebFRA:
     driver: bridge

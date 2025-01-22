@@ -1,3 +1,5 @@
-hello:
- path: /api/hello
- controller: App\Controller\HelloController::index
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
